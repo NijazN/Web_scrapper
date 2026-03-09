@@ -2,8 +2,8 @@
 """MAIN: Web Scraper вакансий HH.ru + Pandas анализ"""
 print("Запускается Web Scraper вакансий...")
 
-from scraper import scrape_hh_vacancies  # Импорт "рук" (Selenium)
-from analyze import analyze_vacancies    # Импорт "мозга" (Pandas)
+from scraper import scrape_hh_vacancies
+from analyze import analyze_vacancies
 
 def main():
     print("Сбор вакансий...")
