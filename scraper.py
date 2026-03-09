@@ -57,7 +57,7 @@ def scrape_hh_vacancies(vacancy_name: str, city: str, max_pages: int):
 
         for page in range(max_pages):
             try:
-                print(f"📄 Парсим страницу {page + 1}...")
+                print(f"Парсим страницу {page + 1}...")
                 browser.get(f"{base_url}&page={page}")
 
                 # Ждём появления блоков с вакансиями на странице
@@ -68,15 +68,7 @@ def scrape_hh_vacancies(vacancy_name: str, city: str, max_pages: int):
                     print(f"⚠️  Страница {page} пуста — больше вакансий нет!")
                     break
 
-                print(f"✅ {len(vacancy_blocks)} вакансий на стр. {page + 1}")
-
-        # for page in range(max_pages):
-        #     print(f"📄 Парсим страницу {page + 1}...")
-        #     browser.get(f"{base_url}&page={page}")
-        #     time.sleep(2)
-        #
-        #     # Ждём появления блоков с вакансиями на странице
-        #     vacancy_blocks = wait.until(ec.presence_of_all_elements_located((By.CSS_SELECTOR, '[data-qa="vacancy-serp__vacancy"]')))
+                print(f"{len(vacancy_blocks)} вакансий на стр. {page + 1}")
 
             # Проходим по каждому блоку с вакансией на странице
                 for block in vacancy_blocks:
@@ -123,7 +115,7 @@ def scrape_hh_vacancies(vacancy_name: str, city: str, max_pages: int):
                         # print(f"💰 {salary}")  # Для проверки
 
                     except Exception as e:
-                        print(f"❌ Ошибка вакансии: {e}")
+                        print(f"Ошибка в вакансии: {e}")
                         title = "Неизвестно"
                         company = "Неизвестно"
                         salary = "Не указана"  # ← Безопасное значение!
@@ -139,7 +131,7 @@ def scrape_hh_vacancies(vacancy_name: str, city: str, max_pages: int):
                     vacancies.append(vacancy_data)
 
             except TimeoutException:
-                print(f"⏰ Таймаут на странице {page + 1}, нет вакансий")
+                print(f"Таймаут на странице {page + 1}, нет вакансий")
                 break  # Выходим из цикла
 
     finally:
@@ -147,7 +139,7 @@ def scrape_hh_vacancies(vacancy_name: str, city: str, max_pages: int):
 
     # Превращаем список словарей в таблицу pandas
     vacancies_df = pd.DataFrame(vacancies)
-    print(f"✅ Собрано {len(vacancies_df)} вакансий!")
+    print(f"Собрано {len(vacancies_df)} вакансий!")
     return vacancies_df
 
 if __name__ == "__main__":

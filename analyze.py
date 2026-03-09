@@ -19,41 +19,41 @@ def parse_salary(salary_text):
     return int(numbers[0])  # Преобразуем строку → число
 
 def analyze_vacancies(csv_file = "vacancies_raw.csv"):
-    """🧠 Анализирует CSV файл с вакансиями:
-    - Средняя ЗП, топ компании, навыки
+    """Анализирует CSV файл с вакансиями:
+    - Средняя ЗП, топ компании
     - Создаёт отчёты: vacancies_clean.csv + analysis_summary.csv"""
 
-    print(f"📂 Читаем файл: {csv_file}")
+    print(f"Читаем файл: {csv_file}")
 
-    # 🚀 Читаем CSV → таблица (DataFrame)
+    # Читаем CSV → таблица (DataFrame)
     df = pd.read_csv(csv_file)
-    print(f"📊 Найдено {len(df)} вакансий")
+    print(f"Найдено {len(df)} вакансий")
 
     # 💰 Очищаем зарплату: '100 000 ₽' → 100000
     df['salary_numeric'] = df['salary'].apply(parse_salary)  # НОВЫЙ столбец
 
-    # 📈 Считаем статистику ЗП (только где есть числа)
+    # Считаем статистику ЗП (только где есть числа)
     valid_salaries = df['salary_numeric'].dropna()  # Убираем None
 
     if len(valid_salaries) > 0:
         avg_salary = valid_salaries.mean()
         salary_stats = valid_salaries.describe()
 
-        print("\n💰 СТАТИСТИКА ЗАРПЛАТ")
+        print("\nСТАТИСТИКА ЗАРПЛАТ")
         print(f"  Средняя ЗП: {avg_salary:,.0f} ₽")
         print(f"  Медиана:    {salary_stats['50%']:,.0f} ₽")
         print(f"  Минимум:    {salary_stats['min']:,.0f} ₽")
         print(f"  Максимум:   {salary_stats['max']:,.0f} ₽")
     else:
-        print("❌ Зарплаты не найдены!")
+        print("Зарплаты не найдены!")
         avg_salary = 0
 
 
-    print("\n🏢 Топ-10 компаний по количеству вакансий")
+    print("\nТоп-10 компаний по количеству вакансий")
     top_companies = df['company'].value_counts().head(10)
     print(top_companies)
 
-    # 💾 СОХРАНЯЕМ ОТЧЁТЫ
+    # Сохранение отчета
     # 1. Общая статистика в JSON-подобный словарь
     analysis = {
         'total_vacancies': len(df),
@@ -66,7 +66,7 @@ def analyze_vacancies(csv_file = "vacancies_raw.csv"):
     # 2. Очищенная таблица с новой колонкой зарплаты
     df.to_csv("vacancies_clean.csv", index = False)
 
-    print("✅ ФАЙЛЫ СОЗДАНЫ:")
+    print("Файлы созданы:")
     print("  • vacancies_clean.csv")
     print("  • analysis_summary.csv")
 
